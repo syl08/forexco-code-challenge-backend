@@ -15,6 +15,7 @@ async function bootstrap() {
     .setDescription('code challenge API')
     .setVersion('1.0')
     .addTag('forexco')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('doc', app, document);

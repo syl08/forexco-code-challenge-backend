@@ -28,7 +28,7 @@ export class RateController {
 
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @Get(':currency&:cryptocurrency')
+  @Get('get/:currency&:cryptocurrency')
   findOne(
     @Param('currency') currency: string,
     @Param('cryptocurrency') cryptocurrency: string,
@@ -46,7 +46,7 @@ export class RateController {
 
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @Patch(':currency&:cryptocurrency')
+  @Patch('patch/:currency&:cryptocurrency')
   update(
     @Param('currency') currency: string,
     @Param('cryptocurrency') cryptocurrency: string,
@@ -58,7 +58,7 @@ export class RateController {
 
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @Delete(':currency&:cryptocurrency')
+  @Delete('delete/:currency&:cryptocurrency')
   remove(
     @Param('currency') currency: string,
     @Param('cryptocurrency') cryptocurrency: string,

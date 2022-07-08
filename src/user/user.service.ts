@@ -9,9 +9,8 @@ export class UserService {
 
   async register(createUserDto: CreateUserDto) {
     // before insert user information, check username exists or not in database
-    const existedUser = await this.prismaService.user.findUnique({
-      where: { username: createUserDto.username },
-    });
+    const existedUser = await this.findOne(createUserDto.username);
+
     if (existedUser) {
       throw new ConflictException('username exists');
     }
@@ -24,5 +23,9 @@ export class UserService {
       },
     });
     return newUser;
+  }
+
+  async findOne(username: string) {
+    return this.prismaService.user.findUnique({ where: { username } });
   }
 }

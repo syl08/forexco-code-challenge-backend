@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { CreateRateDto } from './dto/create-rate.dto';
-import { UpdateRateDto } from './dto/update-rate.dto';
 
 @Injectable()
 export class RateService {
@@ -14,10 +13,6 @@ export class RateService {
 
   findOne(id: number) {
     return `This action returns a #${id} rate`;
-  }
-
-  update(id: number, updateRateDto: UpdateRateDto) {
-    return `This action updates a #${id} rate`;
   }
 
   remove(id: number) {

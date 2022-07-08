@@ -1,21 +1,90 @@
-import { Injectable } from '@nestjs/common';
-import { CreateRateDto } from './dto/create-rate.dto';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { UpdateRateDto, CreateRateDto } from './dto';
 
 @Injectable()
 export class RateService {
-  create(createRateDto: CreateRateDto) {
-    return 'This action adds a new rate';
+  constructor(private readonly prismaService: PrismaService) {}
+
+  async create(createRateDto: CreateRateDto) {
+    // check the rate exists in database or not
+    const existsRate = await this.prismaService.rate.findUnique({
+      where: {
+        rateId: {
+          currency: createRateDto.currency,
+          cryptocurrency: createRateDto.cryptocurrency,
+        },
+      },
+    });
+    if (existsRate) {
+      throw new ConflictException('rate exists');
+    }
+    const newRate = await this.prismaService.rate.create({
+      data: createRateDto,
+    });
+    return newRate;
   }
 
-  findAll() {
-    return `This action returns all rate`;
+  async findOne(currency: string, cryptocurrency: string) {
+    const rate = await this.prismaService.rate.findUnique({
+      where: {
+        rateId: { currency, cryptocurrency },
+      },
+    });
+    if (!rate) {
+      throw new NotFoundException('rate not found');
+    }
+    return rate;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} rate`;
+  async findAll() {
+    return this.prismaService.rate.findMany();
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} rate`;
+  async update(
+    currency: string,
+    cryptocurrency: string,
+    updateRateDto: UpdateRateDto,
+  ) {
+    const rate = await this.prismaService.rate.findUnique({
+      where: {
+        rateId: { currency, cryptocurrency },
+      },
+    });
+    if (!rate) {
+      throw new NotFoundException('rate not found');
+    }
+
+    const update = await this.prismaService.rate.update({
+      where: {
+        rateId: { currency, cryptocurrency },
+      },
+      data: {
+        rate: updateRateDto.rate,
+      },
+    });
+    return update;
+  }
+
+  async remove(currency: string, cryptocurrency: string) {
+    const rate = await this.prismaService.rate.findUnique({
+      where: {
+        rateId: { currency, cryptocurrency },
+      },
+    });
+    if (!rate) {
+      throw new NotFoundException('rate not found');
+    }
+
+    const remove = await this.prismaService.rate.delete({
+      where: {
+        rateId: { currency, cryptocurrency },
+      },
+    });
+    return remove;
   }
 }

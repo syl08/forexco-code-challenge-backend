@@ -9,3 +9,21 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("users")
+}
+
+model Rate {
+  currency       String
+  cryptocurrency String
+  rate           Float
+
+  @@unique(fields: [currency, cryptocurrency], name: "rateId")
+  @@map("rates")
+}

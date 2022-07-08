@@ -6,7 +6,7 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix('api'); // add 'api' prefix in all router
 
   app.useGlobalPipes(new ValidationPipe());
 

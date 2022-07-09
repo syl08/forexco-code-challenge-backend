@@ -31,16 +31,18 @@ describe('UserController', () => {
     expect(controller).toBeDefined();
   });
 
-  it('should create a user', () => {
-    const dto = { username: 'test-username', password: 'test-password' };
+  describe('register', () => {
+    it('should create a user', () => {
+      const dto = { username: 'test-username', password: 'test-password' };
 
-    expect(controller.register(dto)).toEqual({
-      id: expect.any(Number),
-      username: 'test-username',
-      password: 'test-password',
-      createdAt: expect.any(Number),
+      expect(controller.register(dto)).toEqual({
+        id: expect.any(Number),
+        username: 'test-username',
+        password: 'test-password',
+        createdAt: expect.any(Number),
+      });
+
+      expect(mockUserService.register).toHaveBeenCalledWith(dto);
     });
-
-    expect(mockUserService.register).toHaveBeenCalledWith(dto);
   });
 });

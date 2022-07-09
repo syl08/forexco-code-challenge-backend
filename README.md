@@ -24,8 +24,7 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-This back has been deployed on Heroku, please check APIs on [Swagger](https://cryptocurrency-rate-backend.herokuapp.com/doc)
+This app has been deployed on Heroku, please check APIs on [Swagger](https://cryptocurrency-rate-backend.herokuapp.com/doc)
 
 ## Installation
 

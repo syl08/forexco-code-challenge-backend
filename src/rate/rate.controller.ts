@@ -7,12 +7,11 @@ import {
   Param,
   Delete,
   UseGuards,
-  Request,
 } from '@nestjs/common';
 import { RateService } from './rate.service';
 import { CreateRateDto } from './dto/create-rate.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { UpdateRateDto } from './dto';
 
 @Controller('rate')
@@ -22,7 +21,7 @@ export class RateController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Post('create')
-  create(@Body() createRateDto: CreateRateDto, @Request() req) {
+  create(@Body() createRateDto: CreateRateDto) {
     return this.rateService.create(createRateDto);
   }
 
@@ -32,7 +31,6 @@ export class RateController {
   findOne(
     @Param('currency') currency: string,
     @Param('cryptocurrency') cryptocurrency: string,
-    @Request() req,
   ) {
     return this.rateService.findOne(currency, cryptocurrency);
   }
@@ -40,7 +38,7 @@ export class RateController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Get('all')
-  findAll(@Request() req) {
+  findAll() {
     return this.rateService.findAll();
   }
 
@@ -51,7 +49,6 @@ export class RateController {
     @Param('currency') currency: string,
     @Param('cryptocurrency') cryptocurrency: string,
     @Body() updateRateDto: UpdateRateDto,
-    @Request() req,
   ) {
     return this.rateService.update(currency, cryptocurrency, updateRateDto);
   }
@@ -62,7 +59,6 @@ export class RateController {
   remove(
     @Param('currency') currency: string,
     @Param('cryptocurrency') cryptocurrency: string,
-    @Request() req,
   ) {
     return this.rateService.remove(currency, cryptocurrency);
   }
